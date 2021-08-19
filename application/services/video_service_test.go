@@ -37,7 +37,7 @@ func prepare() (*domain.Video, repositories.VideosRepository) {
 	return video, videoRepository
 }
 
-func TestDownload(t *testing.T) {
+func TestVideoDownloadService(t *testing.T) {
 
 	video, repo := prepare()
 
