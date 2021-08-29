@@ -11,11 +11,11 @@ import (
 
 type Database struct {
 	Db            *gorm.DB
-	Dns           string
-	DnsTest       string
+	Dsn           string
+	DsnTest       string
 	DbType        string
 	DbTypeTest    string
-	Debbug        bool
+	Debug         bool
 	AutoMigrateDb bool
 	Env           string
 }
@@ -28,9 +28,9 @@ func NewDbTest() *gorm.DB {
 	dbInstance := NewDb()
 	dbInstance.Env = "test"
 	dbInstance.DbTypeTest = "sqlite3"
-	dbInstance.DnsTest = ":memory:"
+	dbInstance.DsnTest = ":memory:"
 	dbInstance.AutoMigrateDb = true
-	dbInstance.Debbug = true
+	dbInstance.Debug = true
 
 	connection, err := dbInstance.Connect()
 
@@ -45,16 +45,16 @@ func (d *Database) Connect() (*gorm.DB, error) {
 	var err error
 
 	if d.Env != "test" {
-		d.Db, err = gorm.Open(d.DbType, d.Dns)
+		d.Db, err = gorm.Open(d.DbType, d.Dsn)
 	} else {
-		d.Db, err = gorm.Open(d.DbTypeTest, d.DnsTest)
+		d.Db, err = gorm.Open(d.DbTypeTest, d.DsnTest)
 	}
 
 	if err != nil {
 		return nil, err
 	}
 
-	if d.Debbug {
+	if d.Debug {
 		d.Db.LogMode(true)
 	}
 
@@ -64,4 +64,8 @@ func (d *Database) Connect() (*gorm.DB, error) {
 	}
 
 	return d.Db, nil
+}
+
+func main() {
+	//
 }

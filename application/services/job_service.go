@@ -12,7 +12,15 @@ import (
 type JobService struct {
 	Job           *domain.Job
 	JobRepository repositories.JobsRepository
-	videoService  VideoService
+	VideoService  VideoService
+}
+
+func NewJobService(JobRepository repositories.JobsRepository, videoService VideoService) JobService {
+	return JobService{
+		Job:           &domain.Job{},
+		JobRepository: JobRepository,
+		VideoService:  videoService,
+	}
 }
 
 func (j *JobService) Start() error {
@@ -22,7 +30,7 @@ func (j *JobService) Start() error {
 		return j.failJob(err)
 	}
 
-	err = j.videoService.Download(os.Getenv("inputBucketName"))
+	err = j.VideoService.Download(os.Getenv("inputBucketName"))
 
 	if err != nil {
 		return j.failJob(err)
@@ -34,7 +42,7 @@ func (j *JobService) Start() error {
 		return j.failJob(err)
 	}
 
-	err = j.videoService.Fragment()
+	err = j.VideoService.Fragment()
 
 	if err != nil {
 		return j.failJob(err)
@@ -46,7 +54,7 @@ func (j *JobService) Start() error {
 		return j.failJob(err)
 	}
 
-	err = j.videoService.Encode()
+	err = j.VideoService.Encode()
 
 	if err != nil {
 		return j.failJob(err)
@@ -64,7 +72,7 @@ func (j *JobService) Start() error {
 		return j.failJob(err)
 	}
 
-	err = j.videoService.Finish()
+	err = j.VideoService.Finish()
 
 	if err != nil {
 		return j.failJob(err)
@@ -88,7 +96,7 @@ func (j *JobService) performUpload() error {
 
 	videoUpload := NewVideoUpload()
 	videoUpload.OutputBucket = os.Getenv("inputBucketName")
-	videoUpload.VideoPath = os.Getenv("localStoragePath") + "/" + j.videoService.Video.ID
+	videoUpload.VideoPath = os.Getenv("localStoragePath") + "/" + j.VideoService.Video.ID
 	concurrency, _ := strconv.Atoi(os.Getenv("CONCURRENCY_UPLOAD"))
 	doneUpload := make(chan string)
 
@@ -122,5 +130,13 @@ func (j *JobService) failJob(error error) error {
 		return err
 	}
 
+	return nil
+}
+
+func (v *VideoService) Insert() error {
+	_, err := v.VideoRepository.Insert(v.Video)
+	if err != nil {
+		return err
+	}
 	return nil
 }

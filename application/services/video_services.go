@@ -38,6 +38,7 @@ func (vs *VideoService) Download(bucketName string) error {
 		return err
 	}
 
+	fmt.Println("esse é um print", r)
 	defer r.Close()
 	body, err := io.ReadAll(r)
 
