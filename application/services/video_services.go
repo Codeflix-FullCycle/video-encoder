@@ -3,7 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
-	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -38,9 +38,8 @@ func (vs *VideoService) Download(bucketName string) error {
 		return err
 	}
 
-	fmt.Println("esse é um print", r)
 	defer r.Close()
-	body, err := io.ReadAll(r)
+	body, err := ioutil.ReadAll(r)
 
 	if err != nil {
 		return err
@@ -72,9 +71,10 @@ func (vs *VideoService) Fragment() error {
 	source := os.Getenv("localStoragePath") + "/" + vs.Video.ID + ".mp4"
 	target := os.Getenv("localStoragePath") + "/" + vs.Video.ID + ".frag"
 
-	cmd := exec.Command("mp4Fragment", source, target)
+	cmd := exec.Command("mp4fragment", source, target)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	parseOutput(output)

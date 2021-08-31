@@ -26,7 +26,7 @@ type JobNotificationError struct {
 	Error   string `json:"error"`
 }
 
-func (j *JobManager) NewJobManager(
+func NewJobManager(
 	db *gorm.DB,
 	RabbitMQ *queue.RabbitMQ,
 	messageChannel chan amqp.Delivery,
