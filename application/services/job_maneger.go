@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -83,6 +84,7 @@ func (j *JobManager) notify(jobJson []byte) error {
 }
 
 func (j *JobManager) checkParseErrors(jobResult JobWorkerResult) error {
+	fmt.Print("xzklçkçds", jobResult.Job)
 	if jobResult.Job.ID != "" {
 		log.Printf("MessageID: %v. Error during the job: %v with video: %v. Error: %v",
 			jobResult.Message.DeliveryTag, jobResult.Job.ID, jobResult.Job.Video.ID, jobResult.Error.Error())

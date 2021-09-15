@@ -7,13 +7,13 @@ services:
       - .:/go/src
   db:
     image: postgres
-    container_name: indenty-postgres
+    container_name: encoder-postgres
     environment:
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: postgres
       POSTGRES_DB: encoder
     ports:
-      - 5433:5432
+      - 5434:5432
 
   rabbit:
     image: "rabbitmq:3-management"

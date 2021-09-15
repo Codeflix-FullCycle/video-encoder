@@ -43,7 +43,7 @@ func JobWorker(messageChannel chan amqp.Delivery, returnChannel chan JobWorkerRe
 		}
 
 		job.ID = uuid.NewV4().String()
-		job.OutputBucketPath = os.Getenv("outputBucketName")
+		job.OutputBucketPath = os.Getenv("inputBucketName")
 		job.Status = "STARTING"
 		job.Video = jobService.VideoService.Video
 		job.CreatedAt = time.Now()
@@ -56,7 +56,7 @@ func JobWorker(messageChannel chan amqp.Delivery, returnChannel chan JobWorkerRe
 		jobService.Job = &job
 
 		if err := jobService.Start(); err != nil {
-			returnChannel <- returnJobResult(domain.Job{}, message, err)
+			returnChannel <- returnJobResult(*jobService.Job, message, err)
 			continue
 		}
 

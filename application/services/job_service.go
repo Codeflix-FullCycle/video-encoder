@@ -130,7 +130,7 @@ func (j *JobService) failJob(error error) error {
 		return err
 	}
 
-	return nil
+	return error
 }
 
 func (v *VideoService) Insert() error {
