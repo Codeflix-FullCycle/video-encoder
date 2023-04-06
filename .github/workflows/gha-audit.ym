@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      
 jobs: 
   gha-usage-minutes-report: 
     runs-on: ubuntu-latest 
