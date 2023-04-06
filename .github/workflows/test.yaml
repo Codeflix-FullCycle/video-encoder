@@ -3,16 +3,15 @@ on:
   push:
     branches:
       - main
-      
-jobs: 
-  gha-usage-minutes-report: 
-    runs-on: ubuntu-latest 
-    steps: 
-      - name: GitHub Actions Usage Audit 
-        uses: fergusmacd/github-action-usage@daff7e 
-        # passe a entrada do usuário como argumentos 
-        com: 
-          organization: 'Codeflix-FullCycle' 
-          gitHubAPIKey:'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' 
-          loglevel: erro 
-          raisealarmremainingminutes : 100
+jobs:
+  gha-usage-minutes-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GitHub Actions Usage Audit
+        uses: fergusmacd/github-action-usage@daff7e
+        # pass user input as arguments
+        with:
+          organisation: "Codeflix-FullCycle"
+          gitHubAPIKey: "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"
+          loglevel: error 
+          raisealarmremainingminutes: 100
