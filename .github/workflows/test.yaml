@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: GitHub Actions Usage Audit
-        uses: fergusmacd/github-action-usage@daff7e
+        uses: fergusmacd/github-action-usage@daff7e5517914546a1e39fcc22f476e1471853f6
         # pass user input as arguments
         with:
           organisation: "Codeflix-FullCycle"
